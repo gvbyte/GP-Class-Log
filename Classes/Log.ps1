@@ -1,0 +1,38 @@
+class Log {
+    static [string] $LogDirectory = ".\var\log"
+
+    static [void] Info([string]$module, [string]$message) {
+        [Log]::WriteLog("INFO", $module, $message)
+    }
+
+    static [void] Warn([string]$module, [string]$message) {
+        [Log]::WriteLog("WARN", $module, $message)
+    }
+
+    static [void] Error([string]$module, [string]$message) {
+        [Log]::WriteLog("ERROR", $module, $message)
+    }
+
+    static [void] Success([string]$module, [string]$message) {
+        [Log]::WriteLog("SUCCESS", $module, $message)
+    }
+
+    static [void] WriteLog([string]$level, [string]$module, [string]$message) {
+        $timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+        $logEntry = "[$timestamp] [$level] [$module] $message"
+
+        # Ensure log directory exists
+        if (-not (Test-Path ([Log]::LogDirectory))) {
+            New-Item -ItemType Directory -Path ([Log]::LogDirectory) -Force | Out-Null
+        }
+
+        # Define daily log file
+        $logFile = Join-Path ([Log]::LogDirectory) ("Log_{0}.log" -f (Get-Date).ToString("yyyy-MM-dd"))
+
+        # Output to console
+        Write-Host $logEntry
+
+        # Append to file
+        Add-Content -Path $logFile -Value $logEntry
+    }
+}
