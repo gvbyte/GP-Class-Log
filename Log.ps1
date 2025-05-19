@@ -6,7 +6,7 @@ class Log {
     }
 
     static [void] Warn([string]$module, [string]$message) {
-        [Log]::WriteLog("WARN", $module, $message)
+        [Log]::WriteLog("WARNING", $module, $message)
     }
 
     static [void] Error([string]$module, [string]$message) {
@@ -18,20 +18,19 @@ class Log {
     }
 
     static [void] WriteLog([string]$level, [string]$module, [string]$message) {
-        $timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
-        $logEntry = "[$timestamp] [$level] [$module] $message"
-
+        $timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss");
+        $logEntry = ''
+        if($level -eq  'INFO'){$logEntry = "[$timestamp] [$level]    [$module] $message";}
+        if($level -eq  'ERROR'){$logEntry = "[$timestamp] [$level]   [$module] $message";}
+        if($level.Length -eq 7){$logEntry = "[$timestamp] [$level] [$module] $message";}
         # Ensure log directory exists
         if (-not (Test-Path ([Log]::LogDirectory))) {
             New-Item -ItemType Directory -Path ([Log]::LogDirectory) -Force | Out-Null
         }
-
         # Define daily log file
         $logFile = Join-Path ([Log]::LogDirectory) ("Log_{0}.log" -f (Get-Date).ToString("yyyy-MM-dd"))
-
         # Output to console
         Write-Host $logEntry
-
         # Append to file
         Add-Content -Path $logFile -Value $logEntry
     }
