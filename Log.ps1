@@ -2,22 +2,22 @@ class Log {
     static [string] $LogDirectory = ".\var\log"
 
     static [void] Info([string]$module, [string]$message) {
-        [Log]::WriteLog("INFO", $module, $message)
+        [Log]::Write("INFO", $module, $message)
     }
 
     static [void] Warn([string]$module, [string]$message) {
-        [Log]::WriteLog("WARNING", $module, $message)
+        [Log]::Write("WARNING", $module, $message)
     }
 
     static [void] Error([string]$module, [string]$message) {
-        [Log]::WriteLog("ERROR", $module, $message)
+        [Log]::Write("ERROR", $module, $message)
     }
 
     static [void] Success([string]$module, [string]$message) {
-        [Log]::WriteLog("SUCCESS", $module, $message)
+        [Log]::Write("SUCCESS", $module, $message)
     }
 
-    static [void] WriteLog([string]$level, [string]$module, [string]$message) {
+    static [void] Write([string]$level, [string]$module, [string]$message) {
         $timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss");
         $logEntry = ''
         if($level -eq  'INFO'){$logEntry = "[$timestamp] [$level]    [$module] $message";}

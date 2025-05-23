@@ -5,5 +5,10 @@
     Author            = 'GVBYTE'
     Description       = 'GVBYTE custom Log classes and functions'
     PowerShellVersion = '5.1'
-    FunctionsToExport = @('Trace-Info','Trace-Warn','Trace-Error','Trace-Success')
+    FunctionsToExport = @(
+        'Write-LogInfo',
+        'Write-LogWarn',
+        'Write-LogError',
+        'Write-LogSuccess'
+    )
 }
